@@ -26,7 +26,8 @@ _schema = StructType([
     StructField("updated_at", TimestampType(), True)
 ])
 
-df = spark.read.csv("/home/diego/dataset-df/dataset/df_per_line_code/line_code=*/*.csv", header=False, schema=_schema)
+# Reading
+df = spark.read.csv("path/*.csv", header=False, schema=_schema)
 
 df = df.repartition(50)
 
@@ -38,7 +39,8 @@ contagem_depois = df_sem_duplicatas.count()
 
 percentual_duplicatas = ((contagem_antes - contagem_depois) / contagem_antes) * 100
 
-with open("percent_duplicatas_df.txt", "w") as f:
+# Writing
+with open("out.txt", "w") as f:
     f.write(f"Percentual dos dados duplicados: {percentual_duplicatas}%\n")
     
 spark.stop()

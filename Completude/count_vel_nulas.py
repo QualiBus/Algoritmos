@@ -2,7 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType
 
-# Inicializar a sessão Spark
 spark = SparkSession.builder.appName("NullSpeedAnalysis").getOrCreate()
 
 _schema = StructType([
@@ -11,8 +10,8 @@ _schema = StructType([
     StructField("percent_null_speed", DoubleType(), True)
 ])
 
-
-df = spark.read.csv("/home/diego/dataset-df/velocidades_nulas/*.csv", header=True, schema=_schema)
+# Reading
+df = spark.read.csv("path/*.csv", header=True, schema=_schema)
 
 
 df = df.withColumn("categoria",
@@ -47,8 +46,8 @@ Velocidades 100% nulas: {contagens["totalmente_nula"]} ({porcentagem_totalmente:
 Velocidades 0% nulas: {contagens["nao_nula"]} ({porcentagem_nao:.2f}%)
 Velocidades parcialmente nulas: {contagens["parcialmente_nula"]} ({porcentagem_parcial:.2f}%)"""
 
-
-with open("count_zeradas.txt", "w") as arquivo:
+# Writing
+with open("out.txt", "w") as arquivo:
     arquivo.write(resultado)
 
 spark.stop()

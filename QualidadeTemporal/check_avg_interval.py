@@ -27,7 +27,8 @@ _schema = StructType([
     StructField("updated_at", TimestampType(), True)
 ])
 
-df = spark.read.csv("/home/diego/dataset-df/dataset/df_per_line_code/line_code=*/*.csv", header=False, schema=_schema)
+# Reading
+df = spark.read.csv("path/*.csv", header=False, schema=_schema)
 
 df = df.repartition(8)
 
@@ -61,6 +62,7 @@ overall_avg = overall_avg.withColumn("overall_avg",
                                     seconds_to_hhmmss_udf(col("overall_avg_seconds")))\
                                     .select("overall_avg")
 
+# Writing 
 (avg_per_bus.coalesce(1)
  .write
  .mode("overwrite")
