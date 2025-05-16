@@ -10,7 +10,8 @@ _schema = StructType([
     StructField("percent_zero_speed", DoubleType(), True)
 ])
 
-df = spark.read.csv("/home/diego/dataset-df/velocidades_zeradas/*.csv", header=True, schema=_schema)
+# Reading
+df = spark.read.csv("path/*.csv", header=True, schema=_schema)
 
 filtered_df = df.filter("has_zero_speed = 1")
 
@@ -26,7 +27,8 @@ Média de porcentagem zerada: {avg_percent:.2f}%
 Linhas com mais de 40% de zeros: {count_over_40}
 Porcentagem de linhas acima de 40%: {percentage_over_40:.2f}%"""
 
-with open("resultado_zerados.txt", "w") as arquivo:
+# Writing
+with open("out.txt", "w") as arquivo:
     arquivo.write(resultado)
 
 spark.stop()
