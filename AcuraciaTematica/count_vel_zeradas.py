@@ -11,7 +11,8 @@ _schema = StructType([
 ])
 
 # Reading
-df = spark.read.csv("path/*.csv", header=True, schema=_schema)
+
+df = spark.read.csv("path_write/velocidades_nulas/*.csv", header=True, schema=_schema)
 
 filtered_df = df.filter("has_zero_speed = 1")
 
@@ -23,12 +24,15 @@ filtered_count = filtered_df.count()
 percentage_over_40 = (count_over_40 / filtered_count * 100) if filtered_count > 0 else 0
 
 resultado = f"""Análise de Velocidades Zeradas:
-Média de porcentagem zerada: {avg_percent:.2f}%
+
+Média de porcentagem zerada: {avg_percent}%
+
 Linhas com mais de 40% de zeros: {count_over_40}
-Porcentagem de linhas acima de 40%: {percentage_over_40:.2f}%"""
+
+Porcentagem de linhas acima de 40%: {percentage_over_40}%"""
 
 # Writing
-with open("out.txt", "w") as arquivo:
+with open("cont_vel_zeradas.txt", "w") as arquivo:
     arquivo.write(resultado)
 
 spark.stop()

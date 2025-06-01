@@ -3,6 +3,7 @@ cidade:String
 codigo_cidade:Integer
 adaptado:Boolean
 agencia:String
+codigo_linha:String
 url_linha:String
 tarifa:Double
 lat:Double

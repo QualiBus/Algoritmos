@@ -1,4 +1,5 @@
-id,cidade,codigo_cidade,adaptado,agencia,url_linha,tarifa,lat,lon,velocidade,eletrico,tipo,sentido,atualizado_em
-CUR_BI025,Curitiba,4106902,1,,,,-25.411531,-49.271935,,False,1,,2023-06-13T02:59:12.222726+00:00
-CUR_BB303,Curitiba,4106902,1,,,,-25.415298,-49.281191,,False,10,,2023-06-12T08:10:22.157801+00:00
-CUR_BB303,Curitiba,4106902,1,,,,-25.415298,-49.281191,,False,10,,2023-06-12T08:10:45.156113+00:00
+id,cidade,codigo_cidade,adaptado,agencia,codigo_linha,url_linha,tarifa,lat,lon,velocidade,eletrico,tipo,sentido,atualizado_em
+CUR_BI025,Curitiba,4106902,1,,1,,,-25.411531,-49.271935,0,False,1,,2023-06-13T02:59:12.222726+00:00
+CUR_BI025,Curitiba,4106902,1,,1,,,-25.415298,-49.281191,,False,10,,2023-06-12T08:10:22.157801+00:00
+CUR_BB303,Curitiba,4106902,1,,1,,,-25.415298,-49.281191,111,False,10,,2023-06-12T08:10:45.156113+00:00
+CUR_BB303,Curitiba,4106902,1,,1,,,-25.415298,-49.281191,141,False,10,,2023-06-12T08:10:45.156113+00:00

@@ -26,15 +26,21 @@ meus_campos = {
 mapa_colunas = {v: k for k, v in meus_campos.items()}
 
 # Schema.txt
+# Modifique a parte "absolute_path" no código abaixo para o caminho absoluto até o schema.txt
 schema_fields = []
-with open("schema.txt", "r") as f:
+with open("absolute_path/schema.txt", "r") as f:
     for linha in f:
         nome, tipo = linha.strip().split(":")
         schema_fields.append(StructField(nome.strip(), map_type(tipo), True))
 schema_final = StructType(schema_fields)
 
 # Reading
-df = spark.read.csv("path/*.csv", header=False, schema=schema_final)
+# Modifique a parte "absolute_path" no código abaixo para o caminho absoluto até o path/*.csv
+df = spark.read.csv("absolute_path/path/*.csv", header=True, schema=schema_final)
+
+for nome_real in df.columns:
+    if nome_real in mapa_colunas:
+        df = df.withColumnRenamed(nome_real, mapa_colunas[nome_real])
 
 # Intervalos temporais por bus_id
 window_spec = Window.partitionBy("bus_id").orderBy("updated_at")

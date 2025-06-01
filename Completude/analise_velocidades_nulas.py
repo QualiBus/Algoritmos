@@ -28,23 +28,25 @@ meus_campos = {
 mapa_colunas = {v: k for k, v in meus_campos.items()}
 
 # Schema.txt
+# Modifique a parte "absolute_path" no código abaixo para o caminho absoluto até o schema.txt
 schema_fields = []
-with open("schema.txt", "r") as f:
+with open("absolute_path/schema.txt", "r") as f:
     for linha in f:
         nome, tipo = linha.strip().split(":")
         schema_fields.append(StructField(nome.strip(), map_type(tipo), True))
 schema_final = StructType(schema_fields)
 
 # Reading
-df = spark.read.csv("path/*.csv", header=False, schema = schema_final)
+# Modifique a parte "absolute_path" no código abaixo para o caminho absoluto até o path/*.csv
+df = spark.read.csv("absolute_path/path/*.csv", header=True, schema = schema_final)
 
 for nome_real in df.columns:
     if nome_real in mapa_colunas:
         df = df.withColumnRenamed(nome_real, mapa_colunas[nome_real])
 
-df = df.withColumn("file_path", input_file_name()) \
-       .withColumn("line_code", regexp_extract(col("file_path"), r"line_code=([\d.]+)", 1).cast(DoubleType())) \
-       .drop("file_path")
+#df = df.withColumn("file_path", input_file_name()) \
+#       .withColumn("line_code", regexp_extract(col("file_path"), r"line_code=([\d.]+)", 1).cast(DoubleType())) \
+#       .drop("file_path")
 
 # Nulidade de velocidades
 df_grouped = df.groupBy("line_code").agg(
@@ -54,13 +56,5 @@ df_grouped = df.groupBy("line_code").agg(
 
 df_grouped.write.csv("path_write/velocidades_nulas", header=True, mode="overwrite")
 
-total_null_speed_percent = df.select(
-    (count(when(col("bus_speed").isNull(), True)) / count("*") * 100
-).alias("percent_null_speed")
-).collect()[0]["percent_null_speed"]
-
-# Writing
-with open("out.txt", "w") as f:
-    f.write(f"Percentual Geral de Velocidades Nulas: {total_null_speed_percent:.2f}%\n")
 
 spark.stop()

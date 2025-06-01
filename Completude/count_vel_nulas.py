@@ -11,7 +11,7 @@ _schema = StructType([
 ])
 
 # Reading
-df = spark.read.csv("path/*.csv", header=True, schema=_schema)
+df = spark.read.csv("path_write/velocidades_nulas/*.csv", header=True, schema=_schema)
 
 
 df = df.withColumn("categoria",
@@ -42,12 +42,12 @@ porcentagem_parcial = (contagens["parcialmente_nula"] / total) * 100 if total > 
 
 
 resultado = f"""Total de linhas: {total}
-Velocidades 100% nulas: {contagens["totalmente_nula"]} ({porcentagem_totalmente:.2f}%)
-Velocidades 0% nulas: {contagens["nao_nula"]} ({porcentagem_nao:.2f}%)
-Velocidades parcialmente nulas: {contagens["parcialmente_nula"]} ({porcentagem_parcial:.2f}%)"""
+Linhas com 100% das velocidades nulas: {contagens["totalmente_nula"]} ({porcentagem_totalmente:.2f}%)
+Linhas com 0% das velocidades nulas: {contagens["nao_nula"]} ({porcentagem_nao:.2f}%)
+Linhas com parte das velocidades nulas: {contagens["parcialmente_nula"]} ({porcentagem_parcial:.2f}%)"""
 
 # Writing
-with open("out.txt", "w") as arquivo:
+with open("count_vel_nulas.txt", "w") as arquivo:
     arquivo.write(resultado)
 
 spark.stop()
