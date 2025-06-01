@@ -10,25 +10,34 @@ spark = SparkSession.builder \
     .config("spark.sql.shuffle.partitions", "8") \
     .getOrCreate()
 
-_schema = StructType([
-    StructField("bus_id", StringType(), True),
-    StructField("city", StringType(), True),
-    StructField("city_code", IntegerType(), True),
-    StructField("adapted", BooleanType(), True), 
-    StructField("agency", StringType(), True),
-    StructField("line_url", StringType(), True),
-    StructField("line_fare", DoubleType(), True),
-    StructField("latitude", DoubleType(), True),
-    StructField("longitude", DoubleType(), True),
-    StructField("bus_speed", DoubleType(), True),
-    StructField("is_eletric", BooleanType(), True),
-    StructField("bus_type", StringType(), True),
-    StructField("bus_direction", IntegerType(), True),
-    StructField("updated_at", TimestampType(), True)
-])
+def map_type(type_str):
+    mapping = {
+        "string": StringType(),
+        "integer": IntegerType(),
+        "double": DoubleType(),
+        "boolean": BooleanType(),
+        "timestamp": TimestampType()
+    }
+    return mapping[type_str.strip().lower()]
+
+meus_campos = {
+    "bus_id": "id",
+    "updated_at": "atualizado_em",
+}
+
+# Nome_real → nome_interno
+mapa_colunas = {v: k for k, v in meus_campos.items()}
+
+# Schema.txt
+schema_fields = []
+with open("schema.txt", "r") as f:
+    for linha in f:
+        nome, tipo = linha.strip().split(":")
+        schema_fields.append(StructField(nome.strip(), map_type(tipo), True))
+schema_final = StructType(schema_fields)
 
 # Reading
-df = spark.read.csv("path/*.csv", header=False, schema=_schema)
+df = spark.read.csv("path/*.csv", header=False, schema=schema_final)
 
 df = df.repartition(8)
 

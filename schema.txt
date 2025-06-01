@@ -1,0 +1,14 @@
+id:String
+cidade:String
+codigo_cidade:Integer
+adaptado:Boolean
+agencia:String
+url_linha:String
+tarifa:Double
+lat:Double
+lon:Double
+velocidade:Double
+eletrico:Boolean
+tipo:String
+sentido:Integer
+atualizado_em:Timestamp
