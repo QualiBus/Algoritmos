@@ -33,7 +33,7 @@ Altere os valores da direita do dicionário para os valores correspondentes no s
         "line_code": "codigo_linha",
         "bus_speed": "velocidade",
         }
-Neste caso, em cada um dos códigos que necessitam desses campos, você encontrará um dicionário chamado `meus_campos`, que deverá ter os valores à esquerda preenchidos com os nomes dos respectivos campos no seu schema.
+Neste caso, em cada um dos códigos que necessitam desses campos, você encontrará um dicionário chamado `meus_campos`, que deverá ter os valores à direita preenchidos com os nomes dos respectivos campos no seu schema.
 
 3. **Definição do caminho para o arquivo de dados**
 
