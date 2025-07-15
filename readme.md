@@ -1,47 +1,61 @@
-# Framework **QualiBus**
+# **QualiBus** Framework
 
-**QualiBus** é um framework que oferece quatro módulos dedicados à análise da qualidade de dados de transporte coletivo:
+**QualiBus** is a framework that offers four modules dedicated to analyzing the quality of public transportation data:
 
-- **Acurácia temática**  
-- **Completude**  
-- **Consistência lógica**  
-- **Qualidade temporal**
+-   **Thematic Accuracy**
+-   **Completeness**
+-   **Logical Consistency**
+-   **Temporal Quality**
 
-Para executar os módulos, o usuário deve garantir que **Python 3** e **Apache Spark** estejam instalados no ambiente.
+To run the modules, the user must ensure that **Python 3** and **Apache Spark** are installed in their environment.
 
 ---
 
-### Etapas para utilização dos módulos:
+### Steps to use the modules:
 
-1. **Carregamento do esquema de dados**
+1.  **Loading the data schema**
 
-   Prepare um arquivo `schema.txt` contendo o esquema no seguinte formato:
+    Prepare a `schema.txt` file containing the schema in the following format:
 
-        coluna_1:tipo_coluna_1
-
+        column_1:column_type_1
         ...
+        column_i:column_type_i
 
-        coluna_i:tipo_coluna_i
-   
-   Sendo o primeiro campo para o nome da coluna no schema do seu arquivo `.csv` e o segundo para seu respectivo tipo, faça isso para todas as colunas do schema.
-   
-2. **Modificação do campo da direita do dicionário meus_campos**
+    The first field is for the column name in your `.csv` file's schema, and the second is for its respective type. Do this for all columns in the schema. Remember to use the official Apache Spark data types (e.g., Integer, String, Timestamp, Double).
 
-Altere os valores da direita do dicionário para os valores correspondentes no seu schema, no exemplo, devem ser alterados: "codigo_linha" e "velocidade".
+2.  **Modify the values in the `meus_campos` dictionary**
 
-        meus_campos = {
+    Navigate to the code within each module. Depending on the script, you will find the `meus_campos` dictionary, which is used to map certain variables for the scripts' execution. Change the dictionary values to the corresponding names in your schema. In the first example, "codigo_linha" and "velocidade" should be changed to the respective names of these columns in your `.csv` file.
+
+    ```python
+    meus_campos = {
         "line_code": "codigo_linha",
         "bus_speed": "velocidade",
-        }
-Neste caso, em cada um dos códigos que necessitam desses campos, você encontrará um dicionário chamado `meus_campos`, que deverá ter os valores à direita preenchidos com os nomes dos respectivos campos no seu schema.
+    }
+    
+    meus_campos = {
+        "line_code": "cl",
+        "bus_direction": "sl",
+    }
+    ```
 
-3. **Definição do caminho para o arquivo de dados**
+    The second example shows a real-world scenario, replacing the values with the corresponding column names from the SPTRANS API for `line_code` and `bus_direction`, which are "cl" and "sl", respectively. If a user were using data from this API, this substitution would be made in the dictionary.
 
-Em cada módulo de análise, insira o **caminho para o arquivo `.csv`** contendo os dados de ônibus na linha de leitura apropriada, colocando o caminho correto para os dados que deseja utilizar na análise.
+3.  **Set the path to the data file**
 
-4. **Execução com Apache Spark**
+    In each analysis module's code, insert the **path to the `.csv` file** containing the bus data in the appropriate read line, providing the correct path for the data you wish to analyze.
 
-Com o Apache Spark instalado, execute o módulo desejado usando o comando, podendo serem feitas otimizações e adaptações do comando para o seu ambiente de execução do Spark:
+4.  **Execution with Apache Spark**
 
-```bash
-spark-submit nome_do_codigo.py
+    ```bash
+    spark-submit your_script_name.py
+    ```
+
+    With Apache Spark installed, run the desired module using the command above. You can make optimizations and adaptations to the command for your Spark execution environment. For example, if you want to run the script for counting null speeds in a local environment, you should run the following in your terminal:
+
+    ```bash
+    spark-submit --master "local[*]" count_null_speeds.py
+    ```
+
+
+
