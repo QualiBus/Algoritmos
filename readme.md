@@ -1,6 +1,6 @@
 # **QualiBus** Framework
 
-**QualiBus** is a framework that offers four modules dedicated to analyzing the quality of public transportation data:
+**QualiBus** is a framework that offers four modules dedicated to analyzing the quality of bus data:
 
 -   **Thematic Accuracy**
 -   **Completeness**
